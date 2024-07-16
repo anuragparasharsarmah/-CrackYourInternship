@@ -1,37 +1,29 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        //Bucket Sort with O(n) time complexity
-        int z = 0, o = 0, t = 0;
+        //Sort O(nlogn)
+        //Bucket Sort O(2n)
+        //Dutch National FLag Algorithm O(n)
 
-        for(auto it: nums){
-            if(it == 0) z++;
-            if(it == 1) o++;
-            if(it == 2) t++;
-        }
+        // 0 0 0 0 0       1 1 1 1 1       101021010       2 2 2 2 2
+        // |       |       |       |       |       |       |       |
+        // 0     low-1    low    mid-1    mid     high   high+1    n
 
-        int i = -1;
+        int low = 0, mid = 0, high = nums.size()-1;
 
-        while(1){
-            if(z == 0 && o == 0 && t == 0) break;
-            i++;
-
-            if(z != 0){
-                nums[i] = 0;
-                z--;
-                continue;
+        while(mid<=high){
+            if(nums[mid] == 0){
+                swap(nums[low],nums[mid]);
+                low++; mid++;
             }
 
-            if(z == 0 && o != 0){
-                nums[i] = 1;
-                o--;
-                continue;
+            else if(nums[mid] == 1){
+                mid++;
             }
 
-            if(z == 0 && o == 0 && t != 0){
-                nums[i] = 2;
-                t--;
-                continue;
+            else if(nums[mid] == 2){
+                swap(nums[mid], nums[high]);
+                high--;
             }
         }
     }
